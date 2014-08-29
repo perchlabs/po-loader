@@ -1,0 +1,28 @@
+{
+  "name": "po-loader",
+  "version": "0.1.0",
+  "author": {
+    "name": "David Schissler @dschissler"
+  },
+  "description": "PO loader module for webpack",
+  "peerDependencies": {
+    "po2json": ">=0.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dschissler/po-loader.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "readme": "",
+   "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/dschissler/po-loader/issues"
+  },
+  "_id": "po-loader@0.1.0",
+  "_from": "po-loader@~0.1.0"
+}
