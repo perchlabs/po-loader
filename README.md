@@ -41,10 +41,10 @@ module.exports =
     # Try to load the locale specified by the browser. Webpack will throw an exception
     # if it does not exist since it has been required with a regex. Then if the
     # locale has both both parts then try to load the base language without a territory
-    # code (ex. 'es', 'en').  If this fails then load the default language (usually 'en_US').
-    # If the locale is not multipart then just fallback to the default language.
-    # This allows for a single base language to be used without territories or
-    # with incomplete coverage for all territories.
+    # code (ex. 'es', 'en').  If this fails then load the default language (ex. 
+    # 'en_US'). If the locale is not multipart then just fallback to the default
+    # language. This allows for a single base language to be used without territories
+    # or with incomplete coverage for all territories.
     try
       waitForLangChunk = getLangLoader locale
     catch eLocale
