@@ -5,8 +5,19 @@
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
 ``` javascript
+// Use it explicitly
 var messages = require("json!po!./locale/en_US/LC_MESSAGES/messages.po");
+
+// Or add a loader into your webpack.config.js
+loaders: [
+   {test: /\.po$/, loader: 'json!po'}
+]
+
+// And then require it like this
+var messages = require("./locale/en_US/LC_MESSAGES/messages.po");
 ```
+
+See [po2json](https://github.com/mikeedwards/po2json) for a list of possible options. Use the `format` option to change the output format, e.g. `json!po?format=jed`.
 
 Locale module code:
 
@@ -41,7 +52,7 @@ module.exports =
     # Try to load the locale specified by the browser. Webpack will throw an exception
     # if it does not exist since it has been required with a regex. Then if the
     # locale has both both parts then try to load the base language without a territory
-    # code (ex. 'es', 'en').  If this fails then load the default language (ex. 
+    # code (ex. 'es', 'en').  If this fails then load the default language (ex.
     # 'en_US'). If the locale is not multipart then just fallback to the default
     # language. This allows for a single base language to be used without territories
     # or with incomplete coverage for all territories.
