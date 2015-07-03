@@ -1,12 +1,12 @@
 {
   "name": "po-loader",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "author": {
     "name": "David Schissler @dschissler"
   },
   "description": "PO loader module for webpack",
   "peerDependencies": {
-    "po2json": ">=0.3.0"
+    "po2json": ">=0.4.0"
   },
   "repository": {
     "type": "git",
@@ -23,8 +23,8 @@
   "bugs": {
     "url": "https://github.com/perchlayer/po-loader/issues"
   },
-  "_id": "po-loader@0.2.2",
-  "_from": "po-loader@~0.2.2",
+  "_id": "po-loader@0.3.0",
+  "_from": "po-loader@~0.3.0",
   "dependencies": {
     "loader-utils": "^0.2.5"
   }
