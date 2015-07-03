@@ -1,6 +1,6 @@
 {
   "name": "po-loader",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": {
     "name": "David Schissler @dschissler"
   },
@@ -23,8 +23,8 @@
   "bugs": {
     "url": "https://github.com/perchlayer/po-loader/issues"
   },
-  "_id": "po-loader@0.2.1",
-  "_from": "po-loader@~0.2.1",
+  "_id": "po-loader@0.2.2",
+  "_from": "po-loader@~0.2.2",
   "dependencies": {
     "loader-utils": "^0.2.5"
   }

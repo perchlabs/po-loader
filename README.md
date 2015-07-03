@@ -17,7 +17,7 @@ loaders: [
 var messages = require("./locale/en_US/LC_MESSAGES/messages.po");
 ```
 
-See [po2json](https://github.com/mikeedwards/po2json) for a list of possible options. Use the `format` option to change the output format, e.g. `json!po?format=jed`.
+See [po2json](https://github.com/mikeedwards/po2json) for a list of possible options. Use the `format` option to change the output format, e.g. `json!po?format=jed` or `json!po?format=jed1.x` for the latest Jed format.
 
 Locale module code:
 
