@@ -140,7 +140,7 @@ function initExecutor(resolve, reject) {
 }
 
 function getLangLoader(locale) {
-  // An runtime exception will be throw every time that the requested locale file
+  // A runtime exception will be throw every time that the requested locale file
   // cannot be found. Webpack uses a regular expression to build all locales as
   // separate bundles.
   let bundleLoader = require(`bundle!${LOCALE_ROOT}/${locale}/LC_MESSAGES/messages.po`);
