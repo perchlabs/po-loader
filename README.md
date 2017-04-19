@@ -19,66 +19,66 @@ var messages = require("./locale/en_US/LC_MESSAGES/messages.po");
 
 See [po2json](https://github.com/mikeedwards/po2json) for a list of possible options. Use the `format` option to change the output format, e.g. `json!po?format=jed` or `json!po?format=jed1.x` for the latest Jed format.
 
-#### Coffeescript async simple example:
+### Javascript async simple example:
 
-``` coffeescript
-'use strict'
+``` javascript
+var Jed = require('jed');
 
-Jed = require 'jed'
+var langRaw = window.navigator.userLanguage || window.navigator.language;
+var langParts = langRaw.replace('-', '_').split('_');
+var multipart = langParts.length > 1;
+// The Locale consists of a language and territory.
+var language = langParts[0];
+var territory = langParts[1].toUpperCase();
+// Set complete
+var locale = (multipart) ? language + '_' + territory : language;
 
-langRaw = window.navigator.userLanguage || window.navigator.language
-langParts = langRaw.replace('-', '_').split('_')
-multipart = (langParts.length > 1)
-# The Locale consists of a language and territory
-language = langParts[0]
-territory = if multipart then langParts[1].toUpperCase()
-# Set full
-locale = if multipart then "#{language}_#{territory}" else language
-
-
-# There is only one variable here and it Webpack expands its search using a regex
-# to find all of the messages. The constant LOCALE_ROOT is evaluated at compile time
-getLangLoader = (locale) ->
-  bundleLoader = require "bundle!#{LOCALE_ROOT}/#{locale}/LC_MESSAGES/messages.po"
-  return bundleLoader
-
-
-i18n = null
-module.exports =
-  gettext: (message) -> i18n.gettext message
-  ngettext: (msg1, msg2, n) -> i18n.ngettext msg1, msg2, n
-
-  init: (loadApp) ->
-    # Try to load the locale specified by the browser. Webpack will throw an exception
-    # if it does not exist since it has been required with a regex. Then if the
-    # locale has both both parts then try to load the base language without a territory
-    # code (ex. 'es', 'en').  If this fails then load the default language (ex.
-    # 'en_US'). If the locale is not multipart then just fallback to the default
-    # language. This allows for a single base language to be used without territories
-    # or with incomplete coverage for all territories.
-    try
-      waitForLangChunk = getLangLoader locale
-    catch eLocale
-      if multipart
-        try
-          waitForLangChunk = getLangLoader language
-        catch eLanguage
-          waitForLangChunk = getLangLoader LOCALE_DEFAULT
-      else
-        waitForLangChunk = getLangLoader LOCALE_DEFAULT
-
-    waitForLangChunk (messages) ->
-      i18n = new Jed
-        domain: 'messages'
-        locale_data:
+var i18n = null;
+module.exports = {
+  gettext: function(message) {
+    return i18n.gettext(message);
+  },
+  ngettext: function(msg1, msg2, n) {
+    return i18n.ngettext(msg1, msg2, n);
+  },
+  init: function(loadApp) {
+    var eLanguage, eLocale, waitForLangChunk;
+    try {
+      waitForLangChunk = getLangLoader(locale);
+    } catch (error) {
+      eLocale = error;
+      if (multipart) {
+        try {
+          waitForLangChunk = getLangLoader(language);
+        } catch (error) {
+          eLanguage = error;
+          waitForLangChunk = getLangLoader(LOCALE_DEFAULT);
+        }
+      } else {
+        waitForLangChunk = getLangLoader(LOCALE_DEFAULT);
+      }
+    }
+    return waitForLangChunk(function(messages) {
+      i18n = new Jed({
+        domain: 'messages',
+        locale_data: {
           messages: messages
+        }
+      });
+      console.log('messages:', messages);
+      return loadApp();
+    });
+  }
+};
 
-      console.log 'messages:', messages
-      loadApp()
-
+// There is only one variable here and it Webpack expands its search using a regex
+// to find all of the messages. The constant LOCALE_ROOT is evaluated at compile time.
+function getLangLoader(locale) {
+  return require("bundle!" + LOCALE_ROOT + "/" + locale + "/LC_MESSAGES/messages.po");
+};
 ```
 
-### Javascript ES6/ES2015 async advanced example:
+### Javascript ES2015+ async advanced example:
 
 Language fallback map stored at `${LOCALE_ROOT}/config`:
 
@@ -96,84 +96,80 @@ map:
 `locale` module:
 
 ```javascript
-'use strict';
-import Jed from 'jed';
+import Jed from 'jed'
 
 // LOCALE_ROOT is a constant defined in webpack config and is evaluated at build time
-let localeConfig = require(`${LOCALE_ROOT}/config`);
+const localeConfig = require(`${LOCALE_ROOT}/config`)
 
-let i18n;
+let i18n
 export default {
-  init: function() {
-    return new Promise(initExecutor);
+  init() {
+    return new Promise(initExecutor)
   },
-  gettext: function(message) {
-    return i18n.gettext(message);
+  gettext(message) {
+    return i18n.gettext(message)
   },
-  ngettext: function(msg1, msg2, n) {
-    return i18n.ngettext(msg1, msg2, n);
+  ngettext(msg1, msg2, n) {
+    return i18n.ngettext(msg1, msg2, n)
   }
-};
+}
 
 function initExecutor(resolve, reject) {
-  let localeDefault = localeConfig['default'];
-  let map           = localeConfig['map'];
+  const localeDefault = localeConfig['default']
+  const map           = localeConfig['map']
 
-  let langRaw = window.navigator.userLanguage || window.navigator.language;
-  let langParts = langRaw.replace('-', '_').split('_');
+  const langRaw = window.navigator.userLanguage || window.navigator.language
+  const langParts = langRaw.replace('-', '_').split('_')
 
-  let language = langParts[0];
-  let country = langParts.length > 1 ? '_' + langParts[1].toUpperCase() : '';
-  let locale = `${language}${country}`;
+  const language = langParts[0]
+  const country = langParts.length > 1 ? '_' + langParts[1].toUpperCase() : ''
+  const locale = `${language}${country}`
 
-  let waitForLangChunk;
+  let waitForLangChunk
   try {
-    waitForLangChunk = getLangLoader(locale);
+    waitForLangChunk = getLangLoader(locale)
   } catch (eLocale) {
-    let localeNext = map.hasOwnProperty(language) ? map[language] : localeDefault;
-    waitForLangChunk = getLangLoader(localeNext);
+    const localeNext = map.hasOwnProperty(language) ? map[language] : localeDefault
+    waitForLangChunk = getLangLoader(localeNext)
   }
   waitForLangChunk(function(messages) {
-    i18n = new Jed(messages);
-    resolve();
-  });
+    i18n = new Jed(messages)
+    resolve()
+  })
 }
 
 function getLangLoader(locale) {
   // A runtime exception will be throw every time that the requested locale file
   // cannot be found. Webpack uses a regular expression to build all locales as
   // separate bundles.
-  let bundleLoader = require(`bundle!${LOCALE_ROOT}/${locale}/LC_MESSAGES/messages.po`);
-  return bundleLoader;
-};
+  return require(`bundle!${LOCALE_ROOT}/${locale}/LC_MESSAGES/messages.po`)
+}
 ```
 
 Create a globally accessible `init` module to glue the common bundle and entry module:
 
 ```javascript
-'use strict';
-
-let promise;
+let promise
 export default function(iterable) {
   if (iterable) {
     if (promise) {
-        throw 'Promise is already set.';
+        throw 'Promise is already set.'
     }
 
-    promise = Promise.all(iterable);
+    promise = Promise.all(iterable)
   }
 
-  return promise;
+  return promise
 }
 ```
 
 Then in your common shared code:
 
 ```javascript
-let localePromise = locale.init();
-let documentPromise = new Promise(function(resolve, reject) {
-  document.addEventListener('DOMContentLoaded', resolve, false);
-});
+const localePromise = locale.init()
+const documentPromise = new Promise(function(resolve, reject) {
+  document.addEventListener('DOMContentLoaded', resolve, false)
+})
 
 init([localePromise, documentPromise])
 
@@ -182,15 +178,11 @@ init([localePromise, documentPromise])
 Finally in your entry code:
 
 ```javascript
-'use strict';
-import init from 'init';
+import init from 'init'
 
 init().then(function() {
-  console.log('The locale module is now ready.');
-});
-
-
-
+  console.log('The locale module is now ready.')
+})
 ```
 
 
