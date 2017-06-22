@@ -3,12 +3,12 @@
 	Author David Schissler @dschissler
 */
 var po2json = require('po2json');
-var loaderUtils = require('loader-utils');
+var utils = require('loader-utils');
 
 module.exports = function(source) {
 	this.cacheable();
 
-	var options = loaderUtils.parseQuery(this.query);
+        var options = utils.getOptions(this);
 
 	// default option
 	if (!('stringify' in options)) {
