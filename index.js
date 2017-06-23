@@ -9,7 +9,6 @@ module.exports = function(source) {
     this.cacheable();
 
     var options = utils.getOptions(this);
-
     if (options === null) {
         options = {};
     }
@@ -17,7 +16,7 @@ module.exports = function(source) {
     // default option
     if (!('stringify' in options)) {
         options.stringify = true;
-	}
+    }
 
     jsonData = po2json.parse(source, options);
 
