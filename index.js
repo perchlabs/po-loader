@@ -10,6 +10,10 @@ module.exports = function(source) {
 
         var options = utils.getOptions(this);
 
+	if (options === null) {
+		options = {};
+	}
+
 	// default option
 	if (!('stringify' in options)) {
 		options.stringify = true;
