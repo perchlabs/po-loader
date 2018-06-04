@@ -5,9 +5,6 @@
     "name": "David Schissler @dschissler"
   },
   "description": "PO loader module for webpack",
-  "peerDependencies": {
-    "po2json": ">=0.4.0"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:perchlayer/po-loader.git"
@@ -24,6 +21,7 @@
     "url": "https://github.com/perchlayer/po-loader/issues"
   },
   "dependencies": {
-    "loader-utils": "^1.1.0"
+    "loader-utils": "^1.1.0",
+    "po2json": ">=0.4.0"
   }
 }
