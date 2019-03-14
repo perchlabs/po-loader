@@ -1,6 +1,6 @@
 {
   "name": "po-loader",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "author": {
     "name": "David Schissler @dschissler"
   },
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:perch-foundation/po-loader.git"
+    "url": "git@github.com:perchlabs/po-loader.git"
   },
   "licenses": [
     {
@@ -21,7 +21,7 @@
   "readme": "",
   "readmeFilename": "README.md",
   "bugs": {
-    "url": "https://github.com/perch-foundation/po-loader/issues"
+    "url": "https://github.com/perchlabs/po-loader/issues"
   },
   "dependencies": {
     "loader-utils": "^1.1.0"
