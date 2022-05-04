@@ -3,12 +3,11 @@
     Author David Schissler @dschissler
 */
 var po2json = require('po2json');
-var utils = require('loader-utils');
 
 module.exports = function(source) {
     this.cacheable();
 
-    var options = utils.getOptions(this);
+    var options = this.getOptions();
     if (options === null) {
         options = {};
     }
