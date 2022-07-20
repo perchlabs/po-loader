@@ -8,6 +8,8 @@
   "peerDependencies": {
     "po2json": ">=1.0.0-beta-3"
   },
+  "main": "./index.js",
+  "exports": "./index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:perchlabs/po-loader.git"
